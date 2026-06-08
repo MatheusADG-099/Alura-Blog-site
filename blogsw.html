@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Holonet Galáctico | Blog Star Wars com Imagens</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0c10;
+            font-family: 'Inter', system-ui, 'Segoe UI', 'Roboto', 'Orbitron', monospace;
+            line-height: 1.5;
+            color: #e2e8f0;
+            padding: 2rem 1rem;
+        }
+
+        .galaxy-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 20% 30%, #0f1219, #030508);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 15% 30%, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 72% 18%, #f8f9fa, rgba(0,0,0,0)),
+                radial-gradient(3px 1px at 45% 85%, #ffd966, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 88% 44%, #cbd5e1, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 5% 92%, #e2e8f0, rgba(0,0,0,0));
+            background-repeat: no-repeat;
+            background-size: 200px 200px, 300px 300px, 400px 400px, 250px 250px, 180px 180px;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(10, 14, 23, 0.94);
+            backdrop-filter: blur(2px);
+            border-radius: 32px;
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(185, 28, 28, 0.2);
+            overflow: hidden;
+        }
+
+        .blog-header {
+            background: linear-gradient(135deg, #0b0e16 0%, #151b26 100%);
+            border-bottom: 3px solid #b91c1c;
+            padding: 2rem 2rem 1.6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .blog-header::before {
+            content: "⚡";
+            position: absolute;
+            left: 2rem;
+            top: 2rem;
+            font-size: 2rem;
+            opacity: 0.5;
+            color: #b91c1c;
+        }
+
+        .blog-header::after {
+            content: "✦";
+            position: absolute;
+            right: 2rem;
+            top: 2rem;
+            font-size: 1.8rem;
+            opacity: 0.5;
+            color: #b91c1c;
+        }
+
+        .blog-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f8f9fc, #b91c1c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 5px rgba(185,28,28,0.3);
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: #9ca3af;
+            border-top: 1px solid rgba(185, 28, 28, 0.4);
+            display: inline-block;
+            padding-top: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .tagline i {
+            color: #b91c1c;
+            font-style: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #1e212b;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            color: #cbd5e1;
+            border: 1px solid #2d2f3a;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links span.highlight {
+            background: #b91c1c20;
+            border-color: #b91c1c;
+            color: #fecaca;
+        }
+
+        .content {
+            padding: 2rem 2rem 2rem;
+        }
+
+        .post-card {
+            background: #0f121bb3;
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            border: 1px solid #2a2e3c;
+            margin-bottom: 2rem;
+            transition: transform 0.2s ease, border-color 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .post-card:hover {
+            border-color: #b91c1c;
+            transform: translateY(-3px);
+        }
+
+        /* Estilo da imagem do post */
+        .post-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 2px solid #b91c1c40;
+            background: #03060c;
+        }
+
+        .post-content-wrapper {
+            padding: 1.8rem 2rem 2rem;
+        }
+
+        .post-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #facc15;
+            letter-spacing: -0.2px;
+            margin-bottom: 0.4rem;
+            font-family: 'Orbitron', monospace;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .post-title .rebel-icon {
+            font-size: 1.4rem;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #2a2e3c;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .author {
+            background: #1f2937;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            color: #facc15;
+            font-weight: 500;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .author:before {
+            content: "⚔️";
+            font-size: 0.7rem;
+        }
+
+        .faction {
+            background: #260e0e;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            color: #b91c1c;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .post-content p {
+            font-size: 1rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            line-height: 1.55;
+        }
+
+        .tech-badge {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .badge {
+            background: #1e1f2c;
+            color: #cbd5e6;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border: 0.5px solid #3b3f4e;
+        }
+
+        .badge-sith {
+            background: #2c0f0f;
+            color: #f87171;
+            border-color: #b91c1c;
+        }
+
+        .badge-jedi {
+            background: #132018;
+            color: #a3e635;
+            border-color: #4ade80;
+        }
+
+        .info-panel {
+            background: #0a0d14cc;
+            border-radius: 24px;
+            border-left: 4px solid #b91c1c;
+            padding: 1.2rem 1.5rem;
+            margin: 1.8rem 0 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .info-panel p {
+            font-size: 0.85rem;
+            color: #bfc9db;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 2px solid #b91c1c;
+            padding-left: 1rem;
+            margin: 0.8rem 0;
+        }
+
+        .btn-holo {
+            background: transparent;
+            border: 1px solid #b91c1c;
+            border-radius: 40px;
+            padding: 0.3rem 1.2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #fecaca;
+            cursor: default;
+        }
+
+        .footer-blog {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1.2rem;
+            border-top: 1px solid #232635;
+            font-size: 0.7rem;
+            color: #6c727f;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                margin: 0 0.5rem;
+            }
+            .blog-header h1 {
+                font-size: 1.8rem;
+            }
+            .post-title {
+                font-size: 1.5rem;
+            }
+            .content {
+                padding: 1.2rem;
+            }
+            .post-content-wrapper {
+                padding: 1.2rem;
+            }
+            .post-image {
+                height: 160px;
+            }
+            .blog-header::before, .blog-header::after {
+                display: none;
+            }
+        }
+
+        .glow {
+            text-shadow: 0 0 5px rgba(185,28,28,0.5);
+        }
+
+        hr {
+            border-color: #2d2f3a;
+            margin: 1rem 0;
+        }
+
+        .image-attribution {
+            font-size: 0.65rem;
+            color: #6c727f;
+            padding: 0.4rem 1rem 0.2rem;
+            text-align: right;
+            border-top: 1px solid #232635;
+            background: #05080f30;
+        }
+    </style>
+</head>
+<body>
+<div class="galaxy-bg"></div>
+<div class="stars"></div>
+
+<div class="container">
+    <div class="blog-header">
+        <h1>✦ HOLONET IMPERIAL ✦</h1>
+        <div class="tagline">
+            <i>〢</i> Relatos da guerra nas estrelas, tecnologia e o poder da Força <i>〢</i>
+        </div>
+        <div class="nav-links">
+            <span class="highlight">✦ CRÔNICAS ✦</span>
+            <span>⚔️ CONFLITOS</span>
+            <span>🛸 LADOS SOMBRIOS</span>
+            <span>🌌 JEDI ARCHIVES</span>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Post 1: Batalha de Yavin com imagem -->
+        <div class="post-card">
+            <img class="post-image" 
+                 src="https://picsum.photos/id/104/900/300" 
+                 alt="X-Wing em missão - Batalha de Yavin"
+                 style="background: #000;">
+            <div class="post-content-wrapper">
+                <div class="post-title">
+                    <span class="rebel-icon">🌕</span> A Batalha de Yavin: vitória da Aliança Rebelde
+                </div>
+                <div class="post-meta">
+                    <span class="author">C-3PO • Arquivos</span>
+                    <span class="faction">🔴 ALIANÇA REBELDE</span>
+                    <span>📅 Data: 0 ABY • 3 min de leitura</span>
+                </div>
+                <div class="post-content">
+                    <p>
+                        Em um dia histórico para a galáxia, Luke Skywalker, guiado pela Força, destruiu a temida Estrela da Morte. 
+                        A artilharia imperial parecia invencível, mas a bravura dos pilotos de caça estelar da Aliança mostrou 
+                        que a esperança nunca se apaga. A vitória em Yavin 4 representa a primeira grande derrota do Império 
+                        Galáctico e acendeu a chama da resistência por todos os sistemas.
+                    </p>
+                    <p>
+                        Técnicos rebeldes descobriram uma vulnerabilidade no exaustor principal, projetada propositalmente por 
+                        engenheiros simpatizantes da causa. O sabre de luz ainda é uma das armas mais icônicas, mas neste dia 
+                        um simples torpedo de prótons mudou os rumos da guerra.
+                    </p>
+                    <div class="tech-badge">
+                        <span class="badge badge-sith">#EstrelaDaMorte</span>
+                        <span class="badge badge-jedi">#Força</span>
+                        <span class="badge">#X-Wing</span>
+                        <span class="badge badge-sith">#DarthVader</span>
+                    </div>
+                </div>
+            </div>
+            <div class="image-attribution">🎬 Arquivo Rebelde | Imagem: Esquadrão Vermelho em formação</div>
+        </div>
+
+        <!-- Post 2: Sabre Vermelho e Cristais Sith com imagem -->
+        <div class="post-card">
+            <img class="post-image" 
+                 src="https://picsum.photos/id/163/900/300" 
+                 alt="Sabre de luz vermelho brilhante - Lado Negro"
+                 style="background: #1a0303;">
+            <div class="post-content-wrapper">
+                <div class="post-title">
+                    <span>⚡</span> O Sabre Vermelho: Cristais Sith e a Arte do Lado Negro
+                </div>
+                <div class="post-meta">
+                    <span class="author">Lord Inquisidor • Registros Sombrios</span>
+                    <span class="faction">🔴 IMPÉRIO SITH</span>
+                    <span>📅 Ciclo 19 • 4 min leitura</span>
+                </div>
+                <div class="post-content">
+                    <p>
+                        Os sabres de luz vermelhos não são apenas uma escolha estética. Através do processo de “sangramento”, 
+                        usuários do lado negro dominam cristais kyber, torcendo-os à sua vontade. Darth Vader, Darth Maul e 
+                        o Imperador Palpatine empunham esses símbolos de poder absoluto. A tecnologia por trás do sabre 
+                        vermelho tem uma assinatura térmica única, gerando lâminas instáveis e devastadoras.
+                    </p>
+                    <p>
+                        Exploramos como forjar um cristal sintético e os segredos da antiga academia Sith em Exegol. 
+                        O vermelho representa sangue, paixão e a corrupção da Força — um contraste direto com o cinza 
+                        moral dos Jedi caídos.
+                    </p>
+                    <div class="tech-badge">
+                        <span class="badge badge-sith">#SabreVermelho</span>
+                        <span class="badge">#CristalKyber</span>
+                        <span class="badge badge-sith">#LadoNegro</span>
+                        <span class="badge">#DarthMaul</span>
+                    </div>
+                </div>
+            </div>
+            <div class="image-attribution">⚡ Holocron Sith | Lâmina carmesim do Lorde das Trevas</div>
+        </div>
+
+        <!-- Post 3: Star Destroyers - poderio imperial com imagem -->
+        <div class="post-card">
+            <img class="post-image" 
+                 src="https://picsum.photos/id/96/900/300" 
+                 alt="Star Destroyer Imperial no espaço"
+                 style="background: #020617;">
+            <div class="post-content-wrapper">
+                <div class="post-title">
+                    🚀 Star Destroyers: O poder cinza do complexo militar imperial
+                </div>
+                <div class="post-meta">
+                    <span class="author">Almirante Motti • Alto Comando</span>
+                    <span class="faction">⚙️ ARMADA IMPERIAL</span>
+                    <span>📅 3 ABY • 5 min</span>
+                </div>
+                <div class="post-content">
+                    <p>
+                        Com mais de 1.600 metros de comprimento, os Destroyers Estelares da classe Imperial são o epítome da 
+                        engenharia militar. Cobertos por uma armadura cinza-escura, carregam centenas de caças TIE, 
+                        turbolasers e geradores de escudo capazes de resistir a bombardeios de frotas inteiras. 
+                        Durante o auge do Império, estas naves impuseram medo e ordem por toda a galáxia.
+                    </p>
+                    <p>
+                        Hoje, analisamos a evolução dos destruidores: do clássico Imperial I até o superdestruidor Executor, 
+                        a nave pessoal de Darth Vader. O vermelho dos canhões de plasma contrasta com o cinza metálico, 
+                        formando a paleta mais icônica da guerra espacial.
+                    </p>
+                    <div class="tech-badge">
+                        <span class="badge">#StarDestroyer</span>
+                        <span class="badge badge-sith">#Império</span>
+                        <span class="badge">#TIEfighter</span>
+                        <span class="badge badge-jedi">#Rebelião</span>
+                    </div>
+                </div>
+            </div>
+            <div class="image-attribution">🛸 Frota Imperial | Destroyer classe Executor em patrulha</div>
+        </div>
+
+        <!-- Post 4 (bônus): A Sombria ameaça - Darth Maul com imagem extra para enriquecer -->
+        <div class="post-card">
+            <img class="post-image" 
+                 src="https://picsum.photos/id/106/900/300" 
+                 alt="Sabre de luz duplo vermelho - Darth Maul"
+                 style="background: #1f0a0a;">
+            <div class="post-content-wrapper">
+                <div class="post-title">
+                    🌑 A Vingança Sith: Darth Maul e o Legado do Medo
+                </div>
+                <div class="post-meta">
+                    <span class="author">Arquivos Sombrios • Darth Sidious</span>
+                    <span class="faction">🔴 ORDEM SITH</span>
+                    <span>📅 Antes da Ascensão • 3 min leitura</span>
+                </div>
+                <div class="post-content">
+                    <p>
+                        Darth Maul, o letal zabrak com um sabre de lâmina dupla vermelha, foi a primeira espada do lado negro 
+                        a se revelar após um milênio de segredo. Treinado nas artes sombrias, representava a raiva pura e 
+                        a ferocidade. Sua perseguição aos Jedi e sua obsessão por vingança contra Obi-Wan Kenobi marcaram 
+                        uma era de conflitos silenciosos.
+                    </p>
+                    <p>
+                        O design do seu sabre duplo e a técnica de combate Teräs Käsi são estudados até hoje. O vermelho 
+                        predomina nos registros Sith: uma cor que ecoa poder e determinação sem limites.
+                    </p>
+                    <div class="tech-badge">
+                        <span class="badge badge-sith">#DarthMaul</span>
+                        <span class="badge">#SabreDuplo</span>
+                        <span class="badge badge-sith">#Sombra</span>
+                        <span class="badge">#VingancaSith</span>
+                    </div>
+                </div>
+            </div>
+            <div class="image-attribution">🌑 Arquivo Secreto | Guerra nas Sombras</div>
+        </div>
+
+        <!-- Painel citação da Resistência com vermelho/cinza -->
+        <div class="info-panel">
+            <div>
+                <p style="font-weight: bold; color: #facc15;">🎙️ COMUNICADO DA RESISTÊNCIA</p>
+                <p>“Que a Força esteja com você. A escuridão pode até surgir, mas a luz sempre volta.”</p>
+                <div class="quote">— Chancellor Leia Organa, mensagem codificada.</div>
+            </div>
+            <div class="btn-holo">
+                ✦ CÓDIGO ✦ 77-RED
+            </div>
+        </div>
+
+        <!-- Próximos temas com estilo visual de imagem também? Mantemos legibilidade -->
+        <div style="margin-top: 1.8rem;">
+            <div style="display: flex; align-items: baseline; gap: 0.6rem; border-bottom: 1px dashed #b91c1c; padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                <span style="background: #b91c1c; width: 10px; height: 10px; border-radius: 2px;"></span>
+                <span style="font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; color: #facc15;">PRÓXIMAS CRÔNICAS</span>
+                <span style="font-size: 0.7rem; color:#7e8aa2;">— imagens serão adicionadas em breve</span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
+                <span style="background: #0e111b; border: 1px solid #2c2f3c; border-radius: 40px; padding: 0.4rem 1.2rem; font-size: 0.75rem;">🌑 Mandalorian & a Espada Negra</span>
+                <span style="background: #0e111b; border: 1px solid #2c2f3c; border-radius: 40px; padding: 0.4rem 1.2rem; font-size: 0.75rem;">🔥 Os Clones da República: cinza e vermelho</span>
+                <span style="background: #0e111b; border: 1px solid #2c2f3c; border-radius: 40px; padding: 0.4rem 1.2rem; font-size: 0.75rem;">🛸 Hiperespaço: rotas secretas</span>
+                <span style="background: #0e111b; border: 1px solid #b91c1c; border-radius: 40px; padding: 0.4rem 1.2rem; font-size: 0.75rem;">⚠️ Invasão Yuuzhan Vong</span>
+            </div>
+        </div>
+
+        <div class="footer-blog">
+            <span>✦ ARQUIVO GALÁCTICO  •  cada post com registro visual do holonet ✦</span>
+            <span style="color:#b91c1c;">⚡ Que a Força esteja com você ⚡</span>
+            <span>© Holonet Imperial • Ano 6 ABY</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
